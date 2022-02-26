@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log {{ tracker.name }}</title>
+</head>
+<body>
+    <div>
+        <!--navbar-->
+        <p style="text-align: right;">
+            <a href="#">Log Out</a>        
+        </p>
+        <h1>Hello {{ user.name }}</h1>
+
+        <h2>Log {{ tracker.name }}</h2>
+        
+    </div>
+    <div>
+        <form action="#" id="tracker-log">
+            <!--Retrieve Tracker Fields from tracker-->
+            <label>When</label>
+            <input type="datetime" name="field1">
+            <br><br>
+            <label>Value</label>
+            <input type="number" name="field2">
+            <br><br>
+            <label>Notes</label>
+            <textarea name="field3">I do something</textarea>
+            <br><br>
+            <input type="submit" value=" ⭐ Log It   ">
+        </form>
+    </div>
+</body>
+</html>

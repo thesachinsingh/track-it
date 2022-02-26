@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker</title>
+</head>
+<body>
+    <div id="navigation">
+        <p style="text-align: right;">Log Out</p>
+        <h1>Hello {{ user.name }}</h1>
+        <h2>{{ tracker.name }} Tracker</h2>
+    </div>
+    <div id="tracker-graph">
+        <p style="text-align: right;">
+            <!--Dropdown (to load data for a particular period i.e today, this week, this month)-->
+            <a href="#">Today</a><br>
+            <a href="#">This Week</a><br>
+            <a href="#">This Month</a>
+        </p>
+
+        <!--Trendline graph-->
+        <img src="https://interworks.com/wp-content/uploads/sites/default/files/wp-content/uploads/2015/03/Fig-1-Trend-Line-Tableau.jpg" width="650" height="400">
+    </div>
+    <div>
+        <h1>Logs</h1>
+        <table>
+            <thead>
+                <th>On</th>
+                <th>Value</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                <td> {{ timestamp1 }}</td>
+                <td>{{ value1 }}</td>
+                <td>{{ notes }}</td>
+                <td>{{ Action Dropdown }}</td>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
