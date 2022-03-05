@@ -3,8 +3,11 @@ from .database import db
 class Users(db.Model):
     __tablename__ = 'users'
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String, unique=True)
-    email = db.Column(db.String, unique=True)
+    username = db.Column(db.String, unique=True, nullable = False)
+    # email = db.Column(db.String, unique=True)
+    #trackers with Trackers
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 class Trackers(db.Model):
     __tablename__ = 'trackers'
@@ -14,7 +17,11 @@ class Trackers(db.Model):
     description = db.Column(db.String)
     tracker_type = db.Column(db.String, nullable = False)
     values = db.Column(db.String)
-    user = db.relationship("Users", backref = "tracker", secondary = "tracker_logs")
+    user = db.relationship("Users", backref = "trackers")
+    logs = db.relationship("TrackerLogs", backref = "tracker")
+
+    def __repr__(self):
+        return '<Tracker %r>' % f'{self.user_id}_{self.tracker_name}'
 
 
 class TrackerLogs(db.Model):
@@ -22,6 +29,10 @@ class TrackerLogs(db.Model):
     user_id = db.Column(db.Integer,   db.ForeignKey("users.user_id"), nullable=False)
     tracker_id = db.Column(db.Integer,  db.ForeignKey("trackers.tracker_id"), nullable=False) 
     log_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    when = db.Column(db.DateTime)
-    value = db.Column(db.String)
+    when = db.Column(db.DateTime, nullable = False)
+    value = db.Column(db.String, nullable=False)
+    notes = db.Column(db.String)
+    #tracker with Trackers
 
+    def __repr__(self):
+        return '<Logs %r>' % self.tracker.tracker_name
