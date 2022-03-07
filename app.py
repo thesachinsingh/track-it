@@ -35,8 +35,19 @@ def home():
 @app.route('/create_tracker', methods = ['GET', 'POST'])
 def create_tracker():
     if request.method == 'POST':
-        pass
-    return render_template("create_tracker.html")
+        tracker_name = request.form.get("tracker_name")
+        description = request.form.get("tracker_description")
+        tracker_type = request.form.get("type")
+        settings = request.form.get("settings", None)
+        user_id = session["user_id"]
+        tracker = Trackers(user_id = user_id, tracker_name = tracker_name, description = description, tracker_type=tracker_type, values = settings)
+        db.session.add(tracker)
+        db.session.commit()
+        return "Values Recieved Successfully"
+    if "username" in session:
+        user = Users.query.filter_by(username = session['username']).first()
+        return render_template("create_tracker.html", user = user)
+    return "You are not Logged In, Log In to continue"
 
 
 if __name__ == '__main__':
