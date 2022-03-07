@@ -5,7 +5,8 @@ from application.models import Users, Trackers, TrackerLogs
 from application.database import db
 import os
 
-app = Flask(__name__)    
+app = Flask(__name__)
+app.secret_key = "super secret key"    
 db.init_app(app)
 app.app_context().push()
 
@@ -20,9 +21,26 @@ def home():
     if request.method == 'POST':
         username = request.form.get("username", None)
         password = request.form.get("password", None)
-        response = get(f'http://127.0.0.1:5000/api/user/{username}')
-        session['user_id'] = response['id']
-        session['username'] = response['username']
+        user = Users.query.filter_by(username = username, password = password).first()
+        if user:
+            session['username'] = username
+            session['user_id'] =  user.user_id
+            print("User verified successfully")
+            return render_template("user_home.html")
+        return "Incorrect Credentials", 404
+    if "username" in session:
+        return render_template("user_home.html")
+    return render_template("login.html")
+
+@app.route('/create_tracker', methods = ['GET', 'POST'])
+def create_tracker():
+    if request.method == 'POST':
+        pass
+    return render_template("create_tracker.html")
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
         
