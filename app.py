@@ -5,6 +5,7 @@ from application.models import Users, Trackers, TrackerLogs
 from application.database import db
 import os
 
+
 app = Flask(__name__)
 app.secret_key = "super secret key"    
 db.init_app(app)
@@ -16,38 +17,7 @@ SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(SQLITE_DB_DIR, "testdb.sql
 
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 
-@app.route('/', methods = ['GET', 'POST'])
-def home():
-    if request.method == 'POST':
-        username = request.form.get("username", None)
-        password = request.form.get("password", None)
-        user = Users.query.filter_by(username = username, password = password).first()
-        if user:
-            session['username'] = username
-            session['user_id'] =  user.user_id
-            print("User verified successfully")
-            return render_template("user_home.html")
-        return "Incorrect Credentials", 404
-    if "username" in session:
-        return render_template("user_home.html")
-    return render_template("login.html")
-
-@app.route('/create_tracker', methods = ['GET', 'POST'])
-def create_tracker():
-    if request.method == 'POST':
-        tracker_name = request.form.get("tracker_name")
-        description = request.form.get("tracker_description")
-        tracker_type = request.form.get("type")
-        settings = request.form.get("settings", None)
-        user_id = session["user_id"]
-        tracker = Trackers(user_id = user_id, tracker_name = tracker_name, description = description, tracker_type=tracker_type, values = settings)
-        db.session.add(tracker)
-        db.session.commit()
-        return "Values Recieved Successfully"
-    if "username" in session:
-        user = Users.query.filter_by(username = session['username']).first()
-        return render_template("create_tracker.html", user = user)
-    return "You are not Logged In, Log In to continue"
+from application.og_controllers import *
 
 
 if __name__ == '__main__':
@@ -86,7 +56,7 @@ if __name__ == '__main__':
 # app = create_app()
 
 # # Import all the controllers so they are loaded
-# from application.controllers import *
+# from application.og_controllers import *
 
 # if __name__ == '__main__':
 #   # Run the Flask app
