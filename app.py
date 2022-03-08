@@ -17,7 +17,7 @@ SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(SQLITE_DB_DIR, "testdb.sql
 
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 
-from application.og_controllers import *
+from application.controllers import *
 
 
 if __name__ == '__main__':
