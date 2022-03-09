@@ -19,13 +19,15 @@
                 <th></th>
             </thead>
             <tbody>
-                
-                <td>Running</td>
+                {% for tracker in user_trackers %}
+                <tr>
+                <td>{{ tracker.tracker_name }}</td>
                 <td>Yesterday</td>
                 <td><a href="#">+LogNewEvent</a></td>
                 <td><a href="#">Edit</a></td>
                 <td><a href="#">Delete</a></td>
-                
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
