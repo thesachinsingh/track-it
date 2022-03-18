@@ -12,22 +12,22 @@
         <p style="text-align: right;">
             <a href="#">Log Out</a>        
         </p>
-        <h1>Hello {{ user.name }}</h1>
+        <h1>Hello {{ user.username }}</h1>
 
-        <h2>Log {{ tracker.name }}</h2>
+        <h2>Log {{ tracker.tracker_name }}</h2>
         
     </div>
     <div>
-        <form action="#" id="tracker-log">
+        <form action="/tracker/{{ tracker.tracker_id }}/create_log" id="tracker-log" method="post">
             <!--Retrieve Tracker Fields from tracker-->
             <label>When</label>
-            <input type="datetime" name="field1">
+            <input type="datetime" name="when" required>
             <br><br>
             <label>Value</label>
-            <input type="number" name="field2">
+            <input type="number" name="val" required>
             <br><br>
             <label>Notes</label>
-            <textarea name="field3">I do something</textarea>
+            <textarea name="notes">I do something</textarea>
             <br><br>
             <input type="submit" value=" ⭐ Log It   ">
         </form>
