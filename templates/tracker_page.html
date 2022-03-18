@@ -9,8 +9,8 @@
 <body>
     <div id="navigation">
         <p style="text-align: right;">Log Out</p>
-        <h1>Hello {{ user.name }}</h1>
-        <h2>{{ tracker.name }} Tracker</h2>
+        <h1>Hello {{ user.username }}</h1>
+        <h2>{{ tracker.tracker_name }}</h2>
     </div>
     <div id="tracker-graph">
         <p style="text-align: right;">
@@ -24,21 +24,29 @@
         <img src="https://interworks.com/wp-content/uploads/sites/default/files/wp-content/uploads/2015/03/Fig-1-Trend-Line-Tableau.jpg" width="650" height="400">
     </div>
     <div>
+        {% if logs %}
         <h1>Logs</h1>
         <table>
             <thead>
                 <th>On</th>
                 <th>Value</th>
                 <th>Notes</th>
-                <th>Actions</th>
+                <!-- <th>Actions</th> -->
             </thead>
             <tbody>
-                <td> {{ timestamp1 }}</td>
-                <td>{{ value1 }}</td>
-                <td>{{ notes }}</td>
-                <td>{{ Action Dropdown }}</td>
+                {% for log in logs %}
+                <tr>
+                <td>{{ log.when }}</td>
+                <td>{{ log.value }}</td>
+                <td>{{ log.notes }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
+        <h3><a href="/tracker/{{ tracker.tracker_id }}/create_log">Create Log</a></h3>
+        {% else %}
+        <h1>No Logs exist</h1>
+        {% endif %}
     </div>
 
 </body>
