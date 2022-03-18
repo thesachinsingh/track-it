@@ -21,7 +21,7 @@
             <tbody>
                 {% for tracker in user_trackers %}
                 <tr>
-                <td>{{ tracker.tracker_name }}</td>
+                <td><a href="/tracker/{{ tracker.tracker_id }}">{{ tracker.tracker_name }}</a></td>
                 <td>Yesterday</td>
                 <td><a href="#">+LogNewEvent</a></td>
                 <td><a href="#">Edit</a></td>
