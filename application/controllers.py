@@ -2,7 +2,7 @@ from flask import current_app as app
 from flask import request, session, render_template
 from application.database import db
 from application.models import Users, Trackers, TrackerLogs
-
+from datetime import datetime
 @app.route('/', methods = ['GET', 'POST'])
 def home():
     if request.method == 'POST':
@@ -13,11 +13,14 @@ def home():
             session['username'] = username
             session['user_id'] =  user.user_id
             print("User verified successfully")
-            return render_template("user_home.html", user=user)
+            user_trackers = Trackers.query.filter_by(user_id = user.user_id)
+            #last_modified = TrackerLogs.query.order_by(TrackerLogs.when).last()
+            return render_template("user_home.html", user=user, user_trackers=user_trackers)
         return "Incorrect Credentials", 404
     if "username" in session:
         user = Users.query.filter_by(username = session["username"]).first()
-        return render_template("user_home.html", user=user)
+        user_trackers = Trackers.query.filter_by(user_id = user.user_id)
+        return render_template("user_home.html", user=user, user_trackers=user_trackers)
     return render_template("login.html")
 
 @app.route('/create_tracker', methods = ['GET', 'POST'])
@@ -37,7 +40,29 @@ def create_tracker():
         return render_template("create_tracker.html", user = user)
     return "You are not Logged In, Log In to continue"
 
-@app.route('/log_values')
-def log_values():
-    if ("username" in session) and ("tracker") :
-        pass
+@app.route('/tracker/<int:tracker_id>')
+def load_tracker(tracker_id):
+    if "username" in session:
+        user = Users.query.filter_by(username=session['username']).first()
+        tracker = Trackers.query.get(tracker_id)
+        logs = TrackerLogs.query.filter_by(tracker_id = tracker_id, user_id = user.user_id)
+        return render_template('tracker_page.html', user = user, tracker = tracker, logs = logs)
+
+@app.route('/tracker/<int:tracker_id>/create_log', methods = ['POST', 'GET'])
+def create_log(tracker_id):
+    if "username" in session:
+        if request.method == 'POST':
+            when = request.form.get("when", None)
+            when = datetime.strptime(when, '%d/%m/%y')
+            val = request.form.get("val", None)
+            notes = request.form.get("notes", "")
+            log_data = TrackerLogs(user_id = session['user_id'], tracker_id = tracker_id, when = when, value = int(val), notes = notes)
+            db.session.add(log_data)
+            db.session.commit()
+            print("Posted data successfully") 
+            return "Done" 
+        tracker = Trackers.query.filter_by(tracker_id = tracker_id, user_id = session["user_id"]).first()  
+        return render_template('create_log.html', tracker = tracker, user=session)
+    else:
+        return "You're Not Logged In"
+        
