@@ -21,7 +21,10 @@
         <form action="/tracker/{{ tracker.tracker_id }}/create_log" id="tracker-log" method="post">
             <!--Retrieve Tracker Fields from tracker-->
             <label>When</label>
-            <input type="datetime" name="when" required>
+            <input type="datetime-local" name="when" id="time-stamp">
+            <!-- <script>
+                // document.getElementById('time-stamp').value = (new Date()).format("yyyy-mm-dd HH:MM:ss");
+            </script> -->
             <br><br>
             <label>Value</label>
             <input type="number" name="val" required>
@@ -31,6 +34,7 @@
             <br><br>
             <input type="submit" value=" ⭐ Log It   ">
         </form>
+        
     </div>
 </body>
 </html>
