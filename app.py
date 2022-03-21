@@ -13,7 +13,7 @@ app.app_context().push()
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 SQLITE_DB_DIR = os.path.join(basedir, "./db_directory")
-SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(SQLITE_DB_DIR, "testdb.sqlite3")
+SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(SQLITE_DB_DIR, "db.sqlite3")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 
