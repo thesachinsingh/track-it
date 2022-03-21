@@ -19,6 +19,7 @@ class Trackers(db.Model):
     description = db.Column(db.String)
     tracker_type = db.Column(db.String, nullable = False)
     values = db.Column(db.String)
+    last_tracked = db.Column(db.DateTime)
     # user = db.relationship("Users", backref = "trackers")
     logs = db.relationship("TrackerLogs", backref = "tracker", cascade="all, delete", passive_deletes=True)
 
@@ -28,9 +29,9 @@ class Trackers(db.Model):
 
 class TrackerLogs(db.Model):
     __tablename__ = 'tracker_logs'
+    log_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     user_id = db.Column(db.Integer,   db.ForeignKey("users.user_id"), nullable=False)
     tracker_id = db.Column(db.Integer,  db.ForeignKey("trackers.tracker_id", ondelete="CASCADE"), nullable=False) 
-    log_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     when = db.Column(db.DateTime, nullable = False)
     value = db.Column(db.String, nullable=False)
     notes = db.Column(db.String)
