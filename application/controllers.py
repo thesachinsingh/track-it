@@ -1,8 +1,12 @@
 from flask import current_app as app
-from flask import request, session, render_template
+from flask import request, session, render_template, flash
 from application.database import db
 from application.models import Users, Trackers, TrackerLogs
 from datetime import datetime
+
+#list of working routes
+wroutes = ['/', '/create_tracker', '/tracker/<int:tracker_id>', '/tracker/<int:tracker_id>/create_log']
+
 @app.route('/', methods = ['GET', 'POST'])
 def home():
     if request.method == 'POST':
@@ -15,7 +19,7 @@ def home():
             print("User verified successfully")
             user_trackers = Trackers.query.filter_by(user_id = user.user_id)
             #last_modified = TrackerLogs.query.order_by(TrackerLogs.when).last()
-            return render_template("user_home.html", user=user, user_trackers=user_trackers)
+            return render_template("user_home.html", user=user, user_trackers=user_trackers, wroutes = wroutes)
         return "Incorrect Credentials", 404
     if "username" in session:
         user = Users.query.filter_by(username = session["username"]).first()
@@ -53,11 +57,13 @@ def create_log(tracker_id):
     if "username" in session:
         if request.method == 'POST':
             when = request.form.get("when", None)
-            when = datetime.strptime(when, '%d/%m/%y')
+            when = datetime.strptime(when, '%Y-%m-%dT%H:%M')
             val = request.form.get("val", None)
             notes = request.form.get("notes", "")
             log_data = TrackerLogs(user_id = session['user_id'], tracker_id = tracker_id, when = when, value = int(val), notes = notes)
             db.session.add(log_data)
+            tracker_update = Trackers.query.get(tracker_id)
+            tracker_update.last_tracked = when
             db.session.commit()
             print("Posted data successfully") 
             return "Done" 
