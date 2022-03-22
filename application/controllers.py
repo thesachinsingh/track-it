@@ -63,7 +63,17 @@ def create_log(tracker_id):
             log_data = TrackerLogs(user_id = session['user_id'], tracker_id = tracker_id, when = when, value = int(val), notes = notes)
             db.session.add(log_data)
             tracker_update = Trackers.query.get(tracker_id)
-            tracker_update.last_tracked = when
+            #to update last_tracked in trackers table
+            query = f'select * FROM tracker_logs WHERE tracker_id = {tracker_id} order by "when" DESC'
+            lt = db.engine.execute(query)
+            for x in lt:
+                print(f'x is {x[3]} with type as {type(x[3])}')
+
+                when2 = datetime.strptime(x[3], '%Y-%m-%d %H:%M:%S.%f')
+                print(when, type(when))
+                tracker_update.last_tracked = when if when > when2 else when2
+                
+                break
             db.session.commit()
             print("Posted data successfully") 
             return "Done" 
