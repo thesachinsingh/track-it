@@ -7,21 +7,22 @@
     <title>Tracker</title>
 </head>
 <body>
+    <a href="/">Go Back to Home Page</a>
     <div id="navigation">
-        <p style="text-align: right;">Log Out</p>
+        <a href="/logout"><h2 style="text-align: right;">Log Out</h2></a>
         <h1>Hello {{ user.username }}</h1>
         <h2>{{ tracker.tracker_name }}</h2>
     </div>
     <div id="tracker-graph">
         <p style="text-align: right;">
             <!--Dropdown (to load data for a particular period i.e today, this week, this month)-->
-            <a href="#">Today</a><br>
+            <!-- <a href="#">Today</a><br>
             <a href="#">This Week</a><br>
-            <a href="#">This Month</a>
+            <a href="#">This Month</a> -->
         </p>
 
         <!--Trendline graph-->
-        <img src="https://interworks.com/wp-content/uploads/sites/default/files/wp-content/uploads/2015/03/Fig-1-Trend-Line-Tableau.jpg" width="650" height="400">
+        <img src="{{ graph_file }}" width="650" height="400">
     </div>
     <div>
         {% if logs %}
@@ -39,6 +40,7 @@
                 <td>{{ log.when }}</td>
                 <td>{{ log.value }}</td>
                 <td>{{ log.notes }}</td>
+                <td><a href="/tracker/{{ log.tracker_id }}/{{ log.log_id }}/delete">Delete Log</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -47,6 +49,7 @@
         {% else %}
         <h1>No Logs exist</h1>
         {% endif %}
+        
     </div>
 
 </body>

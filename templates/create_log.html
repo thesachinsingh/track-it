@@ -7,6 +7,7 @@
     <title>Log {{ tracker.name }}</title>
 </head>
 <body>
+    <a href="/">Go Back to Home Page</a>
     <div>
         <!--navbar-->
         <p style="text-align: right;">
@@ -21,13 +22,13 @@
         <form action="/tracker/{{ tracker.tracker_id }}/create_log" id="tracker-log" method="post">
             <!--Retrieve Tracker Fields from tracker-->
             <label>When</label>
-            <input type="datetime-local" name="when" id="time-stamp">
+            <input type="datetime-local" name="when" id="time-stamp" required>
             <!-- <script>
                 // document.getElementById('time-stamp').value = (new Date()).format("yyyy-mm-dd HH:MM:ss");
             </script> -->
             <br><br>
             <label>Value</label>
-            <input type="number" name="val" required>
+            <input type="{{ t }}" name="val" required>
             <br><br>
             <label>Notes</label>
             <textarea name="notes">I do something</textarea>
