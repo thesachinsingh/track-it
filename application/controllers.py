@@ -171,3 +171,10 @@ def logout():
     session.pop("username")
     session.pop("user_id")
     return redirect('/')
+
+#----Miscellaneous----------
+#-----App report pdf--------
+@app.route('/pdf')
+def app_report():
+    file_name = "sachin.pdf"
+    return render_template('display_pdf.html', file_name = file_name)
