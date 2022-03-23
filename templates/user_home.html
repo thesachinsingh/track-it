@@ -7,6 +7,7 @@
     <title>Home</title>
 </head>
 <body>
+    <a href="/logout"><h2 style="text-align: right;">Log Out</h2></a>
     <div>
         <h1>Hello, {{ user.username }}</h1>
     </div>
@@ -23,9 +24,9 @@
                 <tr>
                 <td><a href="/tracker/{{ tracker.tracker_id }}">{{ tracker.tracker_name }}</a></td>
                 <td>{{ tracker.last_tracked }}</td>
-                <td><a href="#">+LogNewEvent</a></td>
+                <td><a href="/tracker/{{ tracker.tracker_id }}/create_log">+LogNewEvent</a></td>
                 <td><a href="#">Edit</a></td>
-                <td><a href="#">Delete</a></td>
+                <td><a href="/tracker/{{ tracker.tracker_id }}/delete">Delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
